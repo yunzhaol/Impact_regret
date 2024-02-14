@@ -1,0 +1,308 @@
+---
+title: "Untitled"
+format: pdf
+---
+
+```{r,include=FALSE}
+library(ggplot2)
+library(scales)
+library(knitr)
+library(MBESS)
+library(psych)
+library(dplyr) 
+library(Hmisc)
+library(effsize)
+library(jmv)
+library(Rcpp)
+library(reshape2)
+library(readr)
+
+# setting formatting options
+options(scipen=999.99, digits =7)
+
+# load our dataset 
+data <- read.csv(here::here("data/analysis_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+
+str(data)
+
+# To check exclusions based on pre-registration criteria uncomment the following
+# Criteria:
+# Serious lower than 5
+# English understanding lower than 5
+# data <- data[ which(4<data$serious 
+#                     & data$engunder > 4), ]
+#data <- data[which(4<data$serious & data$engunder > 4), ]
+#Show demographics
+#Age
+data$gender
+table(data$gender)
+#Gender
+data$age
+data$age[data$age==99] <- NA
+mean(data$age, na.rm = TRUE)
+sd(data$age, na.rm = TRUE)
+
+###################
+# EXPERIMENT 1 (Hitchhiker-Scenario)
+
+# JAMOVI requires factors, while R imports as numeric. So, need to convert from numeric to factor.
+data$Sc1_regret<- factor(data$Sc1_regret)
+data$sc1_socnorms1<- factor(data$sc1_socnorms1)
+data$sc1_socnorms2<- factor(data$sc1_socnorms2)
+data$sc1_combinednorms<- factor(data$sc1_combinednorms)
+
+# Adjust the allowed_values to not include "NA" as a string
+allowed_values_exp1 <- c("Routine Smith", "Exception Jones")
+
+# Modify the check to correctly account for NA values and check whether the 
+# values are one of the "Routine Smith", "Exception Jones".
+all(data$Sc1_regret %in% allowed_values_exp1 | is.na(data$Sc1_regret))== TRUE
+all(data$sc1_socnorms1 %in% allowed_values_exp1 | is.na(data$sc1_socnorms1))== TRUE
+all(data$sc1_socnorms2 %in% allowed_values_exp1 | is.na(data$sc1_socnorms2))== TRUE
+all(data$sc1_combinednorms %in% allowed_values_exp1 | is.na(data$sc1_combinednorms))== TRUE
+
+
+# Let's label the values better, so it's easier to understand the output.
+data$Sc1_regret <- ordered(data$Sc1_regret, levels = c(1,2), labels = c("Exception Jones", "Routine Smith"))
+data$sc1_socnorms1 <- ordered(data$sc1_socnorms1, levels = c(1,2), labels = c("Exception Jones", "Routine Smith"))
+data$sc1_socnorms2 <- ordered(data$sc1_socnorms2, levels = c(1,2), labels = c("Exception Jones", "Routine Smith"))
+data$sc1_combinednorms <- ordered(data$sc1_combinednorms, levels = c(1,2), labels = c("Exception Jones", "Routine Smith"))
+
+# Let's label the variables better, so we'll remember what those mean and it's easier to understand the output when those are reported.
+label(data$Sc1_regret) <- "Who experiences higher regret (direct replication)" 
+label(data$sc1_socnorms1) <- "Descriptive norms - which is more common?" 
+label(data$sc1_socnorms2) <- "Injunctive norms - who is more criticized by society?" 
+label(data$sc1_combinednorms) <- "Who experiences higher regret, when asking participants to consider the norm" 
+
+
+# Let's run the JAMOVI imported syntax 
+
+# Descriptives for the main variables.
+# Plots appear in the R Studio Plots section
+jmv::descriptives(
+  data=data,
+  vars=c(
+    "Sc1_regret",
+    "sc1_socnorms1",
+    "sc1_socnorms2",
+    "sc1_combinednorms"),
+  freq=TRUE)
+
+# binomial Z
+jmv::propTest2(
+  data=data,
+  vars=c(
+    "Sc1_regret",
+    "sc1_socnorms1",
+    "sc1_socnorms2",
+    "sc1_combinednorms"),
+  ci=TRUE)
+```
+
+
+```{r, include=FALSE}
+# R's way of doing binomial
+# we need to count, while excluding NAs
+x1 <- sum((data$Sc1_regret[!is.na(data$Sc1_regret)])=="Exception Jones")
+n1 <- length(data$Sc1_regret[!is.na(data$Sc1_regret)])
+prop.test(x1, n1, p=0.5, correct = FALSE)
+result <- prop.test(x1, n1, p = 0.5, correct = FALSE)
+p1 <- result$estimate["p"]
+
+x2 <- sum((data$sc1_socnorms1[!is.na(data$sc1_socnorms1)])=="Exception Jones")
+n2 <- length(data$sc1_socnorms1[!is.na(data$sc1_socnorms1)])
+prop.test(x2, n2, p=0.5, correct = FALSE)
+result <- prop.test(x2, n2, p = 0.5, correct = FALSE)
+p2 <- result$estimate["p"]
+
+x3 <- sum((data$sc1_socnorms2[!is.na(data$sc1_socnorms2)])=="Exception Jones")
+n3 <- length(data$sc1_socnorms2[!is.na(data$sc1_socnorms2)])
+prop.test(x3, n3, p=0.5, correct = FALSE)
+result <- prop.test(x3, n3, p = 0.5, correct = FALSE)
+p3 <- result$estimate["p"]
+
+x4 <- sum((data$sc1_combinednorms[!is.na(data$sc1_combinednorms)])=="Exception Jones")
+n4 <- length(data$sc1_combinednorms[!is.na(data$sc1_combinednorms)])
+prop.test(x4, n4, p=0.5, correct = FALSE)
+result <- prop.test(x4, n4, p = 0.5, correct = FALSE)
+p4 <- result$estimate["p"]
+
+# create a data frame to save the data
+table_data <- data.frame(
+  ` ` = c("Routine Smith", "Exception Jones"),
+  Regret_Counts = c(n1 - x1, x1),
+  Regret_Percent = c(1 - p1, p1),
+  Social_Norm_Injunctive_Counts = c(n2 - x2, x2),
+  Social_Norm_Injunctive_Percent = c(1 - p2, p2),
+  Social_Norm_Descriptive_Counts = c(n3 - x3, x3),
+  Social_Norm_Descriptive_Percent = c(1 - p3, p3),
+  Negative_Affect_Counts = c(n4 - x4, x4),
+  Negative_Affect_Percent = c(1 - p4, p4)
+)
+```
+
+```{r,echo=FALSE}
+# create the table with kable()
+kable(table_data, format = "latex", col.names = c(" ", "Counts", "%", "Counts", "%", "Counts", "%", "Counts", "%"), align = 'c')
+```
+
+# Garph
+
+
+```{r,echo=FALSE}
+
+# Data in percentage for Smith and Jones we gained from the table we created
+# Ensure that the percentages are divided by 100 to be in the correct format
+data2 <- data.frame(
+  Category = c('Regret', 'Social norms (injunctive)', 'Social norms (descriptive)', 'Negative affect'),
+  Smith = c(7.9 / 100, 4.7 / 100, 90.6 / 100, 7.3 / 100), # Convert to proportions
+  Jones = c(92.1 / 100, 95.3 / 100, 9.4 / 100, 92.7 / 100) # Convert to proportions
+)
+
+# Melt the data for use with ggplot2
+data_melted <- melt(data2, id.vars='Category')
+
+# Create the bar plot with specified colors and corrected percentage values
+ggplot(data_melted, aes(x = Category, y = value, fill = variable)) +
+  geom_bar(stat = 'identity', position = position_dodge(width = 0.9)) +
+  geom_text(aes(label = sprintf("%0.1f%%", value * 100)), # Multiply by 100 to display percentage
+            position = position_dodge(width = 0.9), 
+            vjust = -0.25, 
+            size = 3.5) +
+  scale_fill_manual(values = c('Smith' = '#1f77b4', 'Jones' = '#d62728')) +
+  theme_minimal() +
+  labs(x = '', y = 'Percentage (%)', fill = '') +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = 'bottom',
+    legend.title = element_blank(),
+    legend.text = element_text(size = 12),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  scale_y_continuous(labels = percent_format()) + # This will ensure y-axis is formatted as percentage
+  ggtitle('Proportions for perceived regret, social norms, and negative affect')
+
+```
+```{r,echo=FALSE,include=FALSE}
+###################
+# EXPERIMENT 2 (Car Accident-Scenario)
+
+#Measure correction: All particpants who indicated (5- somewhat agree) on the question regarding random chance (data$Sc2_random_1 or data$Sc2_random_2) had accidently assigned the value '56' instead of '5' in Qualtrics
+data$Sc2_random_1[data$Sc2_random_1==56] <- 5
+data$Sc2_random_2[data$Sc2_random_2==56] <- 5
+
+# Conversion from numeric to factors 
+data$Sc2_regret<- factor(data$Sc2_regret)
+data$Sc2_lucky<- factor(data$Sc2_lucky)
+
+
+# Label values
+data$Sc2_regret <- ordered(data$Sc2_regret, levels = c(1,2), labels = c("Routine Adams", "Exception White"))
+data$Sc2_lucky <- ordered(data$Sc2_lucky, levels = c(1,2), labels = c("Adams less lucky", "White less lucky"))
+names (data$Sc2_random_1) <- c("Strongly disagree", "Disagree", "Somewhat disagree", "Neither agree nor disagree", "Somewhat agree", "Agree", "Strongly agree")
+names (data$Sc2_random_2) <- c("Strongly disagree", "Disagree", "Somewhat disagree", "Neither agree nor disagree", "Somewhat agree", "Agree", "Strongly agree")
+
+# Label Variables
+label(data$Sc2_regret) <- "Who feels more upset (direct replication)"
+label(data$Sc2_random_1) <- "Adam's (Routine) accident is a random coincidence"
+label(data$Sc2_random_2) <- "White's' (Exception) accident is a random coincidence"
+label(data$Sc2_lucky) <- "Who is less lucky"
+
+# Adjust the allowed_values to not include "NA" as a string
+allowed_values_exp2_regret <- c("Routine Adams", "Exception White")
+allowed_values_exp2_lucky <- c("Adams less lucky", "White less lucky")
+# Modify the check to correctly account for NA values and check whether the 
+# values are one of the "Routine Adams", "Exception White".
+all(data$Sc2_regret %in% allowed_values_exp2_regret | is.na(data$Sc2_regret))== TRUE
+all(data$Sc2_lucky %in% allowed_values_exp2_lucky | is.na(data$Sc2_lucky))== TRUE
+
+# Descriptives for main variables
+jmv::descriptives(
+  data=data,
+  vars=c(
+    "Sc2_regret",
+    "Sc2_random_1",
+    "Sc2_random_2",
+    "Sc2_lucky"),
+  freq=TRUE)
+
+
+
+# binomial Z
+jmv::propTest2(
+  data=data,
+  vars=c(
+    "Sc2_regret",
+    "Sc2_lucky"),
+  ci=TRUE)
+```
+
+
+```{r,echo=FALSE}
+
+# Create the data frame based on the the value we gained from the binomial test
+data <- data.frame(
+  Level = c("Routine Adams", "Exception White", "Routine Adams", "Exception White"),
+  Count = c(65, 277, 114, 228),
+  stringsAsFactors = FALSE
+)
+
+# Split the data frame into two based on the categories: Regret and Luck
+regret_data <- data[1:2, ]
+luck_data <- data[3:4, ]
+
+# Add the percentages as a new column
+regret_data$Percentage <- c(19.0, 81.0)
+luck_data$Percentage <- c(33.3, 66.7)
+
+# Combine the two data frames into a single data frame for display
+final_data <- data.frame(
+  ` ` = c("Regret", "", "Luck", ""),
+  Level = c(regret_data$Level, luck_data$Level),
+  Count = c(regret_data$Count, luck_data$Count),
+  Percentage = c(regret_data$Percentage, luck_data$Percentage)
+)
+
+# Use knitr to create a table
+knitr::kable(final_data, col.names = c("", "Choice", "Count", "%"), align = c('l', 'l', 'r', 'r'))
+
+```
+
+
+
+```{r,echo=FALSE}
+
+# Data in percentage for Adams and White we gained from the table we created
+# Ensure that the percentages are divided by 100 to be in the correct format
+data <- data.frame(
+  Category = c('Regret', 'Luck'),
+  Adams_Routine = c(19.0 / 100, 33.3 / 100), # Convert to proportions
+  White_Exception = c(81.0 / 100, 66.7 / 100) # Convert to proportions
+)
+
+# Melt the data for use with ggplot2
+data_melted <- melt(data, id.vars='Category')
+
+# Create the bar plot with specified colors and corrected percentage values
+ggplot(data_melted, aes(x = Category, y = value, fill = variable)) +
+  geom_bar(stat = 'identity', position = 'dodge') +
+  geom_text(aes(label = sprintf("%0.1f%%", value * 100)), # Multiply by 100 to display percentage
+            position = position_dodge(width = 0.9), 
+            vjust = -0.25, 
+            size = 3.5) +
+  scale_fill_manual(values = c('Adams_Routine' = '#1f77b4', 'White_Exception' = '#d62728')) +
+  theme_minimal() +
+  labs(x = '', y = 'Percentage (%)', fill = '') +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = 'bottom',
+    legend.title = element_blank(),
+    legend.text = element_text(size = 12),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  scale_y_continuous(labels = percent_format()) + # This will ensure y-axis is formatted as percentage
+  ggtitle('Proportions for perceived regret and luck')
+
+
+```
+
