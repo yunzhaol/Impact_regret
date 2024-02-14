@@ -1,81 +1,106 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Routines and Regret: An Examination of Behavioral Norms and Emotional Responses"
+subtitle: "Reproduction of 'The impact of past behaviour normality on regret: replication and extension of three experiments of the exceptionality effect, Cognition and Emotion' (Lucas Kutscher & Gilad Feldman, 2019) "
 author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: LINK."
+  - Yang Cheng
+  - Yunzhao Li
+  - Wentao Sun
+thanks: "Code and data are available at: https://github.com/yunzhaol/Impact_regret.git. A replication of various aspects in this paper are available at: https://doi.org/10.1080/02699931.2018.1504747"
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "In this study, we investigated the relationship between routine behaviors and feelings of regret, focusing on two thought experiments: a hitchhiking scenario and a car accident scenario. We replicated and expanded upon previous research findings. Our results indicate that individuals tend to experience higher levels of regret in situations that deviate from their routine or normal behavior. This pattern was evident in both scenarios, where participants expressed more regret and perceived misfortune when actions led to negative outcomes in less common, exceptional circumstances. Such findings highlight the significance of routine in our decision-making processes and the emotional consequences of deviating from it. This research not only replicates previous studies but also extends our comprehension of how societal norms and personal routines influence our feelings of regret, providing valuable perspectives for both psychological theory and practical applications in managing emotional well-being."
 format: pdf
 number-sections: true
+toc: true
 bibliography: references.bib
 ---
 
 ```{r}
-#| include: false
+#| echo: false
 #| warning: false
 #| message: false
+#| include: false
 
+#### Workspace set-up ####
+library(ggplot2)
+library(scales)
+library(knitr)
+library(MBESS)
+library(psych)
+library(dplyr) 
+library(Hmisc)
+library(effsize)
+library(jmv)
+library(Rcpp)
+library(reshape2)
+library(readr)
+library(janitor)
 library(tidyverse)
-library(palmerpenguins)
 ```
 
 
 # Introduction
 
-You can and should cross-reference sections and sub-sections. We use @citeR and @rohan.
+Regret is a cognitive and emotional experience in which an individual experiences sadness with a painfully cognitive and emotional state. Regret is experienced when realizing that a different decision or circumstance could have resulted in a more positive or desirable outcome (Kahneman & Tversky, 1982). Regret may also be a mechanism for human self-control. Inman (2007) pertinently assessed what regret means to people: it can have either an adaptive function, allowing people to learn from failures and improve future decisions, or a non-adaptive function, causing people to focus on the past. Regret is closely related to our daily decisions, cognitive styles, and emotional experiences, so the study of regret is important.
 
-The remainder of this paper is structured as follows. @sec-data....
+Kahneman and Miller (1986) emphasized normality as a central determinant of regret and counterfactual thinking-imagining alternative versions of the past about what might have happened differently (Byrne, 2016; Miller, Turnbull, & McFarland, 1990; Roese, 1997). They summarize evidence that anomalous behavior tends to trigger more counterfactual thinking and stronger feelings of regret. They discussed the concept of normality extensively, covering experimental studies involving the odds of influencing the perception and/or interpretation of what is normal as a reference point for comparing behaviors to assess whether a person's behavior is normal or exceptional for that person.Lucas Kutschera and Gilad Feldman simulated abnormal behavior and regret through three scenarios and found the correlation between routines and regret. We replicated their paper with expanded applications and practical implications of the research.
 
+We replicate the paper by Adrien Fillon, Lucas Kutscher and Gilad Feldman (2021) and focus on the following research question:
+1.What is the relationship between routine and regret under the hitchhiking scenario thought experiment?
+2.What is the relationship between routine and regret under the car accident scenario thought experiment?
+
+we use R [@citeR] for all data wrangling and analysis and R packages ggplot2 [@ggplot2], scales [@scales],knitr [@knitr], MBESS [@MBESS], psych [@psych], dplyr [@dplyr], Hmisc [@Hmisc], effsize [@effsize], jmv [@jmv], Rcpp [@Rcpp], reshape2 [@reshape2], readr [@readr], janitor [@janitor], tidyverse [@tidyverse] to read in, clean and modify the data, as well as view statistical information by conducting binomial test. Furthermore, produce the tables and figures to show our results. 
+
+The remainder of this paper is structured as follows. @sec-data In the Data part, we detail the methodology behind our data collection and analysis, and describe the survey data used. @sec-results In the Result part, We employ plots and textual analysis to present our findings in two scenario, illustrating the relationship between routine, regret, social norms, and negative affect across different contexts. @sec-dicussion Moving beyond the raw data, the Discussion part interprets our findings within a broader psychological and societal framework. @sec-conclusion In the conclusion part, we summarize our key discoveries, how our results contribute to the existing body of knowledge on regret and routine behaviors. @sec-appendixIn the appendix, the processes of simulating, reading, cleaning, gathering statistical insights, and testing the data are comprehensively outlined.The figures and tables are based on the data collected and detailed in the appendix section that aggregates statistical information.
 
 
 # Data {#sec-data}
 
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
+## Source
+This paper will replicate the survey data originally collected for the (2021) paper by Adrien Fillon, Lucas Kutscher and Gilad Feldman. 
+For part1, we used the survey to collect responses from participants in the following contexts to four questions, which were designed according to the dimensions of regret, social norms (injunctive norms and descriptive norms), and negative impacts.
+For part2, the survey was used to collect participants' ratings of regret in different scenarios, as well as their perceptions of randomness and luck factors. 
 
-```{r}
-#| label: fig-bills
-#| fig-cap: Bills of penguins
-#| echo: false
+There were 342 participants in the replication experiment (127 males, 215 females, Mage = 39.93, SDage = 12.88). 
+, which are listed below. 
+Given scenario: Mr. Jones almost never takes hitch-hikers in his car. Yesterday he gave a man a ride and was robbed. Mr. Smith frequently takes hitch-hikers in his car. Yesterday he gave a man a ride and was robbed. (Lucas Kutscher & Gilad Feldman (2019))
 
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
-```
+## Measure
+The experimental design consisted of two parts, both replications of the scenarios and data presented in the Kahneman and Miller (1986) paper - the hitchhiking scenario and the car accident scenario.
 
-Talk more about it.
+In the Part1, Participants answered two questions regarding perceived social norms, measuring descriptive norms –“whose behaviour do you think is more common in society? (Mr. Jones / Mr. Smith)” and injunctive norms – “whose behaviour do you think will be more criticised by others in society? (Mr. Jones / Mr. Smith)”(Lucas Kutscher & Gilad Feldman (2019))
+And for Negative affect, the measure was implemented as an explanatory variable with no specific hypothesis – “contemplating your previous answers about this scenario and factoring in both Mr. Jones and Mr. Smith personal routines and your perceptions of social norms and possible social criticism, who do you think overall experienced more negative feelings about the decision to take a hitch-hiker that day?” (Mr. Jones / Mr. Smith)(Lucas Kutscher & Gilad Feldman (2019))
 
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
+In the Part2, the survey used the car accident scenario presented in Kahneman and Miller (1986, p. 145), presenting the routine verses exception in two scenarios, Mr. Adams, and Mr. White. Participants rated the two scenarios on the dimensions of regret, luck, and randomness.
+Regret was measured using the following question adapted from the original study – “who is more upset over the accident?” (Mr. Adams / Mr. White).
+Luck was measured using the following question adapted from the original study – “which of the two do you think is less lucky?” (Mr. Adams / Mr. White).
+Randomness was measured using the following question adapted from the original study – “Mr. Adams’ accident is just a random coincidence” and “Mr. White’s accident is just a random coincidence” (1 – Strongly disagree; 7 – Strongly agree).
 
-```{r}
-#| label: fig-planes
-#| fig-cap: Relationship between wing length and width
-#| echo: false
-#| warning: false
-#| message: false
+## Estimand
+At the beginning of this paper, we discuss the three social experiments simulated in the original paper and the correlation found between normative behavior and regret. We then replicate and conduct a case study of some of the results from Experiments 1 and 2 to validate their findings and improve their accessibility. We first tallied the data obtained from Experiments 1 and 2. Then we plotted tables showing the most important variables. We then plotted histograms to show our target population's perceptions of the regrettable effects of past normative behaviors in two different experiments.
 
-analysis_data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
-
-analysis_data |> 
-  ggplot(aes(x = width, y = length)) +
-  geom_point(alpha = 0.8) +
-  theme_minimal() +
-  labs(x = "Wing width (mm)",
-       y = "Wing length (mm)")
-```
-
-Talk way more about it. 
+For part2, a measure of difference in regret that compares the difference in participant-reported regret in the event of an accident on a conventional route (Mr. Adams' scenario) and an unconventional route (Mr. White's scenario).
 
 
-# Results
 
-Our results are summarized in @tbl-modelresults.
+# Results{#sec-results}
+
+## Part 1: hitchhiker - scenario
+Table 1 is a replication of table 1 in the original paper, and it shows a total of 342 counts and proportions for perceived regret, social norms, and negative affect in the hitch-hiking Experiment 1. 
+
+From Table 1, 315 participants with 92.1% associated higher regret with Mr. Jones rather than Mr. Smith, since Mr. Jones hardly ever takes hitch-hikers in his car. In terms of injunctive social norms, the majority of participants with 95.3% felt that Mr. Jones' behavior was more common in the society. In terms of descriptive social norms, most of the participants with 90.6% considered that Smith's behavior was more likely to be criticized by others. In terms of negative affect, most participants with 92.7% considered Mr. Jones as feeling more negative about the decision to hitchhike that day with respect to their daily routines.
+
+Figure 1 is a replication of figure 1 in the original paper, It presents the proportion of participants’ results clearly with respect to regret, social descriptive norms, social injunctive norms and negative affect. According to the bar plot, there exists a high degree of consistency in participants' responses across four different aspects, with more than 90% of participants agreeing on the same point of view.
+
+This normality of Smith's behavior, although there is no evidence to support that it would increase the probability of being robbed, participants would subjectively perceive bad past behaviour normality as leading to bad outcomes.
+While there is no evidence that this behavioral norm of Smith increases the probability of being robbed, participants subjectively believe that past bad behavioral norms lead to bad outcomes.
+
+## Part 2: Car accident scenario
+Figure2 is a replication of figure2 in the original paper, showing the counts and proportions of perceived regret and luck for car accident events. 
+
+Table2 shows that most participants regretted the exception (277, 81%) more strongly than the rule (65,19%; p < .001, d = 1.58). The same result can be seen more intuitively in figure2. the result for the exception event represented by Mr. White is much higher for both Regret and Luck than for the Routine event represented by Mr. Adams.
+
+As one would expect, participants expressed more regret for Mr. WHITE, believing that Mr. Adams encountered a random event. One could more readily visualize an incident occurring on the usual route than on the unusual route because more paths of action could have led to the event. As a result, fewer participants (114, 33%) perceived Mr. Adams to be less lucky, while more participants (228, 66%) perceived Mr. White to be less lucky, p < .001, d = 0.71).
 
 ```{r}
 #| echo: false
@@ -83,10 +108,9 @@ Our results are summarized in @tbl-modelresults.
 #| warning: false
 #| message: false
 
-library(rstanarm)
 
-first_model <-
-  readRDS(file = here::here("models/first_model.rds"))
+
+
 ```
 
 ```{r}
@@ -96,69 +120,279 @@ first_model <-
 #| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
 #| warning: false
 
-modelsummary::modelsummary(
-  list(
-    "First model" = first_model
-  ),
-  statistic = "mad",
-  fmt = 2
-)
+
+
 ```
 
 
 
 
-# Discussion
+# Discussion{#sec-discussion}
 
-## First discussion point {#sec-first-point}
+## Regret in Unconventional Choices 
+For part1, we reproduce and extend a classic experiment on the hitchhiking situation to prove stronger regret for exception than for routines. (reference)We used a survey to collect the participants' answers to different dimensions in this situation, according to regret, norm, and negative impact, and compared the number of answers, and made a table and a bar chart to reflect the proportion of participants' different views. We found that in questions 1, 2, and 4, more than 90% of participants who chose to represent an unconventional situation experienced a higher sense of regret, and in question 3, more than 90% of participants felt that Smith, who represented a regular situation, was more socially normative. The results of questions 2 and 3 support our hypothesis that frequent free-riding behavior is perceived by the general public as less common and is vulnerable to criticism if it conflicts with society's prohibitive norms, while the results of questions 1 and 4 are consistent with our expectation that most participants will have a stronger sense of regret for Jones and more negative feelings and effects later on. This proves the conclusion that regret for exceptional cases will be stronger than regret for normal cases, and the data supports anomalous effects.
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+## Route Choice and Regret
+As can be seen from Figure2, people felt significantly more regret about the accidents participants had in the unconventional route (Mr. White's scenario) than in the conventional route (Mr. Adams' scenario). This finding is consistent with the research of Prof. Gilad Feldman. Participants were more likely to attribute personal choices, and thus felt greater regret, when accidents occurred on less frequently used routes. This result supports our hypothesis about the relationship between road choice and feelings of regret. This is consistent with a study by Miller et al. (1989). They found that the more normal people perceived an event to be, the more similar scenarios they could imagine.
 
-## Second discussion point
+## Perception of Misfortune vs. Randomness
+Most participants attributed the accident Mr. White suffered more to misfortune than to randomness, possibly because the choice of an unconventional route was perceived as a more proactive decision, thus triggering stronger feelings of regret when the accident occurred. In contrast, Mr. Adams' accident was viewed more as a random event, reflecting the fact that misfortunes on routine routes are perceived to be the result of uncontrollable factors rather than a direct consequence of individual decision-making.
 
-## Third discussion point
+## Implications of Regret Research
+Research on regret is important because regret is prevalent in life. First, understanding how regret works can help in designing therapeutic interventions that more effectively manage regret, depression, and anxiety. For example, in the car accident incident in part2, Mr. Adams in the exception scenario would have developed greater regret and had a greater likelihood of developing psychological problems than Mr. White. One can intervene and treat Mr. Adams more proactively by gaining insight into regret. Second, insights into regret can provide strategies for improving decision-making processes in personal, professional, and political contexts, emphasizing the importance of normative behaviors and their impact on outcomes.
+
+## Bias and ethics
+The difference in the participants of the survey will be the main bias, the first experiment is that we recruited 342 participants online from TurkPrime.com, and it is impossible to determine whether the sample is universal and random, and the sample size is not large enough, there are more males, all Turkish. The country's unique culture may have an impact on the data collected, such as the perception of free-riding in Turkey in general.
+
+The experiment involves asking participants to imagine being robbed and in a car accident, which can trigger discomfort or emotional distress, especially for those who have experienced a similar event before. Research should assess this risk beforehand and provide support and interventions accordingly. The second part of the experiment involves asking participants to imagine being in a car accident, which may trigger discomfort or emotional distress, especially for those who have experienced a similar event before. Research should assess this risk beforehand and provide support and interventions accordingly.
 
 ## Weaknesses and next steps
 
 Weaknesses and next steps should also be included.
 
+# Conclusion {#sec-conclusion}
+
+We replicated two parts of the (2021) paper-the hitchhiking scenario and the car accident scenario. Overall, through participant data analyses of regret, luck, social norms, and negative affect in different scenarios, we all gained support for estimand: people feel more regret when the event occurs in exception scenarios than when they are harmed in routine events.
+
 \newpage
 
-\appendix
+\appendix 
 
 # Appendix {-}
 
 
-# Additional data details
+# Additional data details{#sec-appendix}
 
-# Model details {#sec-model-details}
+## Simulation
 
-## Posterior predictive check
+We simulated the dataset using the tipple function and determined the feasibility of the plan.
 
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
+@tbl-simulatedata-exp1 and @tbl-simulatedata-exp2 display the top six rows of data for Experiment 1 and Experiment 2 respectively.
 
 ```{r}
-#| eval: true
 #| echo: false
-#| message: false
 #| warning: false
-#| label: fig-ppcheckandposteriorvsprior
-#| layout-ncol: 2
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
+#| message: false
+#| label: tbl-simulatedata-exp1
+#| tbl-cap: "Dataset Simulation for exp1"
+#### Simulate data for Exp1####
+set.seed(23)
 
-pp_check(first_model) +
-  theme_classic() +
-  theme(legend.position = "bottom")
+simulated_exp1 <-
+  tibble(
+    id = c(1:342),
+    regret = sample(c("J", "S"), 342, replace = TRUE),
+    social_norm_injunctive = sample(c("J", "S"), 342, replace = TRUE),
+    social_norm_descriptive = sample(c("J", "S"), 342, replace = TRUE),
+    negative_effect = sample(c("J", "S"), 342, replace = TRUE)
+  )
 
-posterior_vs_prior(first_model) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
+head(simulated_exp1) |>
+ kable(
+    col.names = c("id", "regret", "social_norm_injunctive", "social_norm_descriptive", "negative_effect"),
+    booktabs = TRUE
+  )
 ```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| label: tbl-simulatedata-exp2
+#| tbl-cap: "Dataset Simulation for exp2"
+#### Simulate data for Exp2####
+set.seed(23)
+simulated_exp2 <-
+  tibble(
+    id = c(1:342),
+    regret = sample(c("A", "W"), 342, replace = TRUE),
+    luck = sample(c("A", "W"), 342, replace = TRUE)
+  )
+
+head(simulated_exp2) |>
+ kable(
+    col.names = c("id", "regret", "luck"),
+    booktabs = TRUE
+  )
+
+```
+
+
+## Read raw data
+
+We acquired a CSV file containing raw data relevant to 'Routines and Regret: An Examination of Behavioral Norms and Emotional Responses.' Subsequently, we inspected the first six rows and assessed the demographic details.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+#### Load data and perform statistical analysis####
+# setting formatting options
+options(scipen=999.99, digits =7)
+
+# load our dataset 
+data <- read.csv(here::here("data/analysis_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+
+#Check the top six rows of data of interest
+dataset_selected <- data %>% select(Sc1_regret, sc1_socnorms1, sc1_socnorms2, sc1_combinednorms) 
+kable(head(dataset_selected))
+
+head(data)
+
+# To check exclusions based on pre-registration criteria uncomment the following
+# Criteria:
+# Serious lower than 5
+# English understanding lower than 5
+# data <- data[ which(4<data$serious 
+#                     & data$engunder > 4), ]
+
+
+# We didn't uncomment this part of the critiria to keep it consistent with the 
+# original work.
+
+#Show demographics
+#Age
+data$gender
+table(data$gender)
+#Gender
+data$age
+data$age[data$age==99] <- NA
+mean(data$age, na.rm = TRUE)
+sd(data$age, na.rm = TRUE)
+```
+
+
+## Clean and test data for statistical information 
+
+123
+
+
+The top 6 rows are shown by @tbl-cleanedata
+```{r}
+#| echo: false
+#| warning: false
+#| include: false
+
+###################
+# EXPERIMENT 1 (Hitchhiker-Scenario)
+
+# JAMOVI requires factors, while R imports as numeric. So, need to convert from numeric to factor.
+data$Sc1_regret<- factor(data$Sc1_regret)
+data$sc1_socnorms1<- factor(data$sc1_socnorms1)
+data$sc1_socnorms2<- factor(data$sc1_socnorms2)
+data$sc1_combinednorms<- factor(data$sc1_combinednorms)
+
+# Let's label the values better, so it's easier to understand the output.
+data$Sc1_regret <- ordered(data$Sc1_regret, levels = c(1,2), labels = c("Exception Jones", "Routine Smith"))
+data$sc1_socnorms1 <- ordered(data$sc1_socnorms1, levels = c(1,2), labels = c("Exception Jones", "Routine Smith"))
+data$sc1_socnorms2 <- ordered(data$sc1_socnorms2, levels = c(1,2), labels = c("Exception Jones", "Routine Smith"))
+data$sc1_combinednorms <- ordered(data$sc1_combinednorms, levels = c(1,2), labels = c("Exception Jones", "Routine Smith"))
+
+# Let's label the variables better, so we'll remember what those mean and it's easier to understand the output when those are reported.
+label(data$Sc1_regret) <- "Who experiences higher regret (direct replication)" 
+label(data$sc1_socnorms1) <- "Descriptive norms - which is more common?" 
+label(data$sc1_socnorms2) <- "Injunctive norms - who is more criticized by society?" 
+label(data$sc1_combinednorms) <- "Who experiences higher regret, when asking participants to consider the norm" 
+
+# Let's run the JAMOVI imported syntax 
+# Descriptives for the main variables.
+# Plots appear in the R Studio Plots section
+jmv::descriptives(
+  data=data,
+  vars=c(
+    "Sc1_regret",
+    "sc1_socnorms1",
+    "sc1_socnorms2",
+    "sc1_combinednorms"),
+  freq=TRUE)
+
+# binomial Z
+jmv::propTest2(
+  data=data,
+  vars=c(
+    "Sc1_regret",
+    "sc1_socnorms1",
+    "sc1_socnorms2",
+    "sc1_combinednorms"),
+  ci=TRUE)
+
+
+###################
+# EXPERIMENT 2 (Car Accident-Scenario)
+
+#Measure correction: All particpants who indicated (5- somewhat agree) on the question regarding random chance (data$Sc2_random_1 or data$Sc2_random_2) had accidently assigned the value '56' instead of '5' in Qualtrics
+data$Sc2_random_1[data$Sc2_random_1==56] <- 5
+data$Sc2_random_2[data$Sc2_random_2==56] <- 5
+
+# Conversion from numeric to factors 
+data$Sc2_regret<- factor(data$Sc2_regret)
+data$Sc2_lucky<- factor(data$Sc2_lucky)
+
+
+# Label values
+data$Sc2_regret <- ordered(data$Sc2_regret, levels = c(1,2), labels = c("Routine Adams", "Exception White"))
+data$Sc2_lucky <- ordered(data$Sc2_lucky, levels = c(1,2), labels = c("Adams less lucky", "White less lucky"))
+names (data$Sc2_random_1) <- c("Strongly disagree", "Disagree", "Somewhat disagree", "Neither agree nor disagree", "Somewhat agree", "Agree", "Strongly agree")
+names (data$Sc2_random_2) <- c("Strongly disagree", "Disagree", "Somewhat disagree", "Neither agree nor disagree", "Somewhat agree", "Agree", "Strongly agree")
+
+# Label Variables
+label(data$Sc2_regret) <- "Who feels more upset (direct replication)"
+label(data$Sc2_random_1) <- "Adam's (Routine) accident is a random coincidence"
+label(data$Sc2_random_2) <- "White's' (Exception) accident is a random coincidence"
+label(data$Sc2_lucky) <- "Who is less lucky"
+
+# Descriptives for main variables
+jmv::descriptives(
+  data=data,
+  vars=c(
+    "Sc2_regret",
+    "Sc2_random_1",
+    "Sc2_random_2",
+    "Sc2_lucky"),
+  freq=TRUE)
+
+# binomial Z
+jmv::propTest2(
+  data=data,
+  vars=c(
+    "Sc2_regret",
+    "Sc2_lucky"),
+  ci=TRUE)
+```
+
+## Tests
+
+We conducted various tests to verify if the imported data aligns with our expectations for Experiment 1 and Experiment 2.
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| include: false
+#### Test ####
+
+# EXPERIMENT 1 (Hitchhiker-Scenario)
+# Adjust the allowed_values to not include "NA" as a string
+allowed_values_exp1 <- c("Routine Smith", "Exception Jones")
+
+# Modify the check to correctly account for NA values and check whether the 
+# values are one of the "Routine Smith", "Exception Jones".
+all(data$Sc1_regret %in% allowed_values_exp1 | is.na(data$Sc1_regret))== TRUE
+all(data$sc1_socnorms1 %in% allowed_values_exp1 | is.na(data$sc1_socnorms1))== TRUE
+all(data$sc1_socnorms2 %in% allowed_values_exp1 | is.na(data$sc1_socnorms2))== TRUE
+all(data$sc1_combinednorms %in% allowed_values_exp1 | is.na(data$sc1_combinednorms))== TRUE
+
+
+# EXPERIMENT 2 (Car Accident-Scenario)
+# Adjust the allowed_values to not include "NA" as a string
+allowed_values_exp2_regret <- c("Routine Adams", "Exception White")
+allowed_values_exp2_lucky <- c("Adams less lucky", "White less lucky")
+# Modify the check to correctly account for NA values and check whether the 
+# values are one of the "Routine Adams", "Exception White".
+all(data$Sc2_regret %in% allowed_values_exp2_regret | is.na(data$Sc2_regret))== TRUE
+all(data$Sc2_lucky %in% allowed_values_exp2_lucky | is.na(data$Sc2_lucky))== TRUE
+```
+
 
 
 
