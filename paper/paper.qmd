@@ -36,6 +36,7 @@ library(reshape2)
 library(readr)
 library(janitor)
 library(tidyverse)
+library(kableExtra)
 ```
 
 
@@ -49,9 +50,9 @@ We replicate the paper by Adrien Fillon, Lucas Kutscher and Gilad Feldman (2021)
 1.What is the relationship between routine and regret under the hitchhiking scenario thought experiment?
 2.What is the relationship between routine and regret under the car accident scenario thought experiment?
 
-we use R [@citeR] for all data wrangling and analysis and R packages ggplot2 [@ggplot2], scales [@scales],knitr [@knitr], MBESS [@MBESS], psych [@psych], dplyr [@dplyr], Hmisc [@Hmisc], effsize [@effsize], jmv [@jmv], Rcpp [@Rcpp], reshape2 [@reshape2], readr [@readr], janitor [@janitor], tidyverse [@tidyverse] to read in, clean and modify the data, as well as view statistical information by conducting binomial test. Furthermore, produce the tables and figures to show our results. 
+For all data wrangling and analysis, we utilize R [@citeR], complemented by a suite of R packages: ggplot2 [@ggplot2] for visualization, dplyr [@dplyr] for data manipulation, along with others such as scales [@scales], knitr [@knitr], kableExtra [@kableExtra] and tidyverse [@tidyverse] for tasks including data cleaning and modification. Additionally, packages like MBESS [@MBESS], psych [@psych], Hmisc [@Hmisc], effsize [@effsize], jmv [@jmv], Rcpp [@Rcpp], reshape2 [@reshape2], readr [@readr], and janitor [@janitor] assist in processing data and viewing statistical information. Importantly, the creation of tables and figures is directly based on the statistical data obtained, ensuring our results are accurately represented and effectively communicated.
 
-The remainder of this paper is structured as follows. @sec-data In the Data part, we detail the methodology behind our data collection and analysis, and describe the survey data used. @sec-results In the Result part, We employ plots and textual analysis to present our findings in two scenario, illustrating the relationship between routine, regret, social norms, and negative affect across different contexts. @sec-dicussion Moving beyond the raw data, the Discussion part interprets our findings within a broader psychological and societal framework. @sec-conclusion In the conclusion part, we summarize our key discoveries, how our results contribute to the existing body of knowledge on regret and routine behaviors. @sec-appendixIn the appendix, the processes of simulating, reading, cleaning, gathering statistical insights, and testing the data are comprehensively outlined.The figures and tables are based on the data collected and detailed in the appendix section that aggregates statistical information.
+The remainder of this paper is structured as follows. @sec-data In the Data part, we detail the methodology behind our data collection and analysis, and describe the survey data used. @sec-results In the Result part, We employ plots and textual analysis to present our findings in two scenario, illustrating the relationship between routine, regret, social norms, and negative affect across different contexts. @sec-discussion Moving beyond the raw data, the Discussion part interprets our findings within a broader psychological and societal framework. @sec-conclusion In the conclusion part, we summarize our key discoveries, how our results contribute to the existing body of knowledge on regret and routine behaviors. @sec-appendix In the appendix, the processes of simulating, reading, cleaning, gathering statistical insights, and testing the data are comprehensively outlined.The figures and tables are based on the data collected and detailed in the appendix section that aggregates statistical information.
 
 
 # Data {#sec-data}
@@ -63,7 +64,7 @@ For part2, the survey was used to collect participants' ratings of regret in dif
 
 There were 342 participants in the replication experiment (127 males, 215 females, Mage = 39.93, SDage = 12.88). 
 , which are listed below. 
-Given scenario: Mr. Jones almost never takes hitch-hikers in his car. Yesterday he gave a man a ride and was robbed. Mr. Smith frequently takes hitch-hikers in his car. Yesterday he gave a man a ride and was robbed. (Lucas Kutscher & Gilad Feldman (2019))
+Given scenario: Mr. Jones almost never takes hitch-hikers in his car. Yesterday he gave a man a ride and was robbed. Mr. Smith frequently takes hitch-hikers in his car. Yesterday he gave a man a ride and was robbed [@kutscher_impact_2019].
 
 ## Measure
 The experimental design consisted of two parts, both replications of the scenarios and data presented in the Kahneman and Miller (1986) paper - the hitchhiking scenario and the car accident scenario.
@@ -86,43 +87,196 @@ For part2, a measure of difference in regret that compares the difference in par
 # Results{#sec-results}
 
 ## Part 1: hitchhiker - scenario
-Table 1 is a replication of table 1 in the original paper, and it shows a total of 342 counts and proportions for perceived regret, social norms, and negative affect in the hitch-hiking Experiment 1. 
+@tbl-frequency_and_proportion_exp1 is a replication of table 1 in the original paper, and it shows a total of 342 counts and proportions for perceived regret, social norms, and negative affect in the hitch-hiking Experiment 1. 
 
 From Table 1, 315 participants with 92.1% associated higher regret with Mr. Jones rather than Mr. Smith, since Mr. Jones hardly ever takes hitch-hikers in his car. In terms of injunctive social norms, the majority of participants with 95.3% felt that Mr. Jones' behavior was more common in the society. In terms of descriptive social norms, most of the participants with 90.6% considered that Smith's behavior was more likely to be criticized by others. In terms of negative affect, most participants with 92.7% considered Mr. Jones as feeling more negative about the decision to hitchhike that day with respect to their daily routines.
 
-Figure 1 is a replication of figure 1 in the original paper, It presents the proportion of participants’ results clearly with respect to regret, social descriptive norms, social injunctive norms and negative affect. According to the bar plot, there exists a high degree of consistency in participants' responses across four different aspects, with more than 90% of participants agreeing on the same point of view.
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| include: false
+
+# load our dataset 
+data <- read.csv(here::here("data/analysis_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+
+# JAMOVI requires factors, while R imports as numeric. So, need to convert from numeric to factor.
+data$Sc1_regret<- factor(data$Sc1_regret)
+data$sc1_socnorms1<- factor(data$sc1_socnorms1)
+data$sc1_socnorms2<- factor(data$sc1_socnorms2)
+data$sc1_combinednorms<- factor(data$sc1_combinednorms)
+
+# Let's label the values better, so it's easier to understand the output.
+data$Sc1_regret <- ordered(data$Sc1_regret, levels = c(1,2), labels = c("Exception Jones", "Routine Smith"))
+data$sc1_socnorms1 <- ordered(data$sc1_socnorms1, levels = c(1,2), labels = c("Exception Jones", "Routine Smith"))
+data$sc1_socnorms2 <- ordered(data$sc1_socnorms2, levels = c(1,2), labels = c("Exception Jones", "Routine Smith"))
+data$sc1_combinednorms <- ordered(data$sc1_combinednorms, levels = c(1,2), labels = c("Exception Jones", "Routine Smith"))
+
+# R's way of doing binomial
+# we need to count, while excluding NAs
+x1 <- sum((data$Sc1_regret[!is.na(data$Sc1_regret)])=="Exception Jones")
+n1 <- length(data$Sc1_regret[!is.na(data$Sc1_regret)])
+prop.test(x1, n1, p=0.5, correct = FALSE)
+result <- prop.test(x1, n1, p = 0.5, correct = FALSE)
+p1 <- result$estimate["p"]
+
+x2 <- sum((data$sc1_socnorms1[!is.na(data$sc1_socnorms1)])=="Exception Jones")
+n2 <- length(data$sc1_socnorms1[!is.na(data$sc1_socnorms1)])
+prop.test(x2, n2, p=0.5, correct = FALSE)
+result <- prop.test(x2, n2, p = 0.5, correct = FALSE)
+p2 <- result$estimate["p"]
+
+x3 <- sum((data$sc1_socnorms2[!is.na(data$sc1_socnorms2)])=="Exception Jones")
+n3 <- length(data$sc1_socnorms2[!is.na(data$sc1_socnorms2)])
+prop.test(x3, n3, p=0.5, correct = FALSE)
+result <- prop.test(x3, n3, p = 0.5, correct = FALSE)
+p3 <- result$estimate["p"]
+
+x4 <- sum((data$sc1_combinednorms[!is.na(data$sc1_combinednorms)])=="Exception Jones")
+n4 <- length(data$sc1_combinednorms[!is.na(data$sc1_combinednorms)])
+prop.test(x4, n4, p=0.5, correct = FALSE)
+result <- prop.test(x4, n4, p = 0.5, correct = FALSE)
+p4 <- result$estimate["p"]
+
+# create a data frame to save the data
+table_data <- data.frame(
+  ` ` = c("Routine Smith", "Exception Jones"),
+  Regret_Counts = c(n1 - x1, x1),
+  Regret_Percent = c(round(100*(1 - p1), digits = 1), round(100*p1, digits = 1)),
+  Social_Norm_Injunctive_Counts = c(n2 - x2, x2),
+  Social_Norm_Injunctive_Percent = c(round(100*(1 - p2), digits = 1), round(100*p2, digits = 1)),
+  Social_Norm_Descriptive_Counts = c(n3 - x3, x3),
+  Social_Norm_Descriptive_Percent = c(round(100*(1 - p3), digits = 1), round(100*p3, digits = 1)),
+  Negative_Affect_Counts = c(n4 - x4, x4),
+  Negative_Affect_Percent = c(round(100*(1 - p4), digits = 1), round(100*p4, digits = 1))
+)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-frequency_and_proportion_exp1
+#| tbl-cap: "Frequency and proportion of regret, social norms, and negative affect for exp1."
+# create the table with kable()
+kable(table_data, format = "latex", col.names = c(" ", "Regret", "%", "Soc_norm1", "%", "Soc_norm2", "%", "Negetive affect", "%"), align = 'c')
+```
+
+@fig-proportion_exp1 is a replication of figure 1 in the original paper, It presents the proportion of participants’ results clearly with respect to regret, social descriptive norms, social injunctive norms and negative affect. According to the bar plot, there exists a high degree of consistency in participants' responses across four different aspects, with more than 90% of participants agreeing on the same point of view.
 
 This normality of Smith's behavior, although there is no evidence to support that it would increase the probability of being robbed, participants would subjectively perceive bad past behaviour normality as leading to bad outcomes.
 While there is no evidence that this behavioral norm of Smith increases the probability of being robbed, participants subjectively believe that past bad behavioral norms lead to bad outcomes.
 
-## Part 2: Car accident scenario
-Figure2 is a replication of figure2 in the original paper, showing the counts and proportions of perceived regret and luck for car accident events. 
+```{r}
+#| echo: false
+#| label: fig-proportion_exp1
+#| fig-cap: "Proportion of regret, social norms, and negative affect for exp1."
+# Data in percentage for Smith and Jones we gained from the table we created
+# Ensure that the percentages are divided by 100 to be in the correct format
+data2 <- data.frame(
+  Category = c('Regret', 'Social norms (injunctive)', 'Social norms (descriptive)', 'Negative affect'),
+  Smith = c(7.9 / 100, 4.7 / 100, 90.6 / 100, 7.3 / 100), # Convert to proportions
+  Jones = c(92.1 / 100, 95.3 / 100, 9.4 / 100, 92.7 / 100) # Convert to proportions
+)
 
-Table2 shows that most participants regretted the exception (277, 81%) more strongly than the rule (65,19%; p < .001, d = 1.58). The same result can be seen more intuitively in figure2. the result for the exception event represented by Mr. White is much higher for both Regret and Luck than for the Routine event represented by Mr. Adams.
+# Melt the data for use with ggplot2
+data_melted <- melt(data2, id.vars='Category')
+
+# Create the bar plot with specified colors and corrected percentage values
+ggplot(data_melted, aes(x = Category, y = value, fill = variable)) +
+  geom_bar(stat = 'identity', position = position_dodge(width = 0.9)) +
+  scale_fill_manual(values = c('Smith' = '#1f77b4', 'Jones' = '#d62728')) +
+  theme_minimal() +
+  labs(x = '', y = 'Percentage (%)', fill = '') +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = 'bottom',
+    legend.title = element_blank(),
+    legend.text = element_text(size = 12),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  scale_y_continuous(labels = percent_format()) + # This will ensure y-axis is formatted as percentage
+  ggtitle('Proportions for regret, social norms, and negative affect')
+
+```
+
+
+## Part 2: Car accident scenario
+
+@tbl-frequency_and_proportion_exp2 shows that most participants regretted the exception (277, 81%) more strongly than the rule (65,19%; p < .001, d = 1.58). The same result can be seen more intuitively in figure2. the result for the exception event represented by Mr. White is much higher for both Regret and Luck than for the Routine event represented by Mr. Adams.
+
+```{r}
+#| echo: false
+#| label: tbl-frequency_and_proportion_exp2
+#| tbl-cap: "Frequency and proportion of regret and luck for exp1."
+# Create the data frame based on the the value we gained from the binomial test
+data <- data.frame(
+  Level = c("Routine Adams", "Exception White", "Routine Adams", "Exception White"),
+  Count = c(65, 277, 114, 228),
+  stringsAsFactors = FALSE
+)
+
+# Split the data frame into two based on the categories: Regret and Luck
+regret_data <- data[1:2, ]
+luck_data <- data[3:4, ]
+
+# Add the percentages as a new column
+regret_data$Percentage <- c(19.0, 81.0)
+luck_data$Percentage <- c(33.3, 66.7)
+
+# Combine the two data frames into a single data frame for display
+final_data <- data.frame(
+  ` ` = c("Regret", "", "Luck", ""),
+  Level = c(regret_data$Level, luck_data$Level),
+  Count = c(regret_data$Count, luck_data$Count),
+  Percentage = c(regret_data$Percentage, luck_data$Percentage)
+)
+
+# Create a table
+kable(final_data, col.names = c("", "Choice", "Count", "%"), align = c('l', 'l', 'r', 'r'))
+```
+
+@fig-proportion_exp2 is a replication of figure2 in the original paper, showing the counts and proportions of perceived regret and luck for car accident events. 
+
+```{r}
+#| echo: false
+#| label: fig-proportion_exp2
+#| fig-cap: "Proportion of regret and luck for exp2."
+
+# Data in percentage for Adams and White we gained from the table we created
+# Ensure that the percentages are divided by 100 to be in the correct format
+data <- data.frame(
+  Category = c('Regret', 'Luck'),
+  Adams_Routine = c(19.0 / 100, 33.3 / 100), # Convert to proportions
+  White_Exception = c(81.0 / 100, 66.7 / 100) # Convert to proportions
+)
+
+# Melt the data for use with ggplot2
+data_melted <- melt(data, id.vars='Category')
+
+# Create the bar plot with specified colors and corrected percentage values
+ggplot(data_melted, aes(x = Category, y = value, fill = variable)) +
+  geom_bar(stat = 'identity', position = 'dodge') +
+  scale_fill_manual(values = c('Adams_Routine' = '#1f77b4', 'White_Exception' = '#d62728')) +
+  theme_minimal() +
+  labs(x = '', y = 'Percentage (%)', fill = '') +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = 'bottom',
+    legend.title = element_blank(),
+    legend.text = element_text(size = 12),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  scale_y_continuous(labels = percent_format()) + # This will ensure y-axis is formatted as percentage
+  ggtitle('Proportions for regret and luck')
+
+
+
+```
 
 As one would expect, participants expressed more regret for Mr. WHITE, believing that Mr. Adams encountered a random event. One could more readily visualize an incident occurring on the usual route than on the unusual route because more paths of action could have led to the event. As a result, fewer participants (114, 33%) perceived Mr. Adams to be less lucky, while more participants (228, 66%) perceived Mr. White to be less lucky, p < .001, d = 0.71).
 
-```{r}
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
 
 
 
-
-```
-
-```{r}
-#| echo: false
-#| eval: true
-#| label: tbl-modelresults
-#| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
-#| warning: false
-
-
-
-```
 
 
 
@@ -146,7 +300,10 @@ The difference in the participants of the survey will be the main bias, the firs
 
 The experiment involves asking participants to imagine being robbed and in a car accident, which can trigger discomfort or emotional distress, especially for those who have experienced a similar event before. Research should assess this risk beforehand and provide support and interventions accordingly. The second part of the experiment involves asking participants to imagine being in a car accident, which may trigger discomfort or emotional distress, especially for those who have experienced a similar event before. Research should assess this risk beforehand and provide support and interventions accordingly.
 
-## Weaknesses and next steps
+## Weaknesses and future directions
+The main shortcomings of the study are that it does not analyze the impact of cultural differences on the perception of regret and decision-making, and the sample selected is not representative enough as it is Turkish, so the sample should be enlarged and screened to ensure that the data are of high quality.
+
+Future research could explore how individual differences, such as personality traits, affect the experience of regret, or expand the current research methodology to comprehensively analyze the emotional responses related to regret and try to discover connections and patterns to gain a deeper understanding of this theory.
 
 Weaknesses and next steps should also be included.
 
@@ -218,14 +375,16 @@ head(simulated_exp2) |>
 ```
 
 
-## Read raw data
+## Read raw data and evaluated demographic information
 
-We acquired a CSV file containing raw data relevant to 'Routines and Regret: An Examination of Behavioral Norms and Emotional Responses.' Subsequently, we inspected the first six rows and assessed the demographic details.
+We acquired a CSV file containing raw data relevant to 'Routines and Regret: An Examination of Behavioral Norms and Emotional Responses.' Subsequently, we inspected the first six rows displayed by @tbl-interested_data and assessed the demographic details.
 
 ```{r}
 #| echo: false
 #| warning: false
 #| message: false
+#| label: tbl-interested_data
+#| tbl-cap: "First six rows of data of interest"
 
 #### Load data and perform statistical analysis####
 # setting formatting options
@@ -235,11 +394,15 @@ options(scipen=999.99, digits =7)
 data <- read.csv(here::here("data/analysis_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
 
 #Check the top six rows of data of interest
-dataset_selected <- data %>% select(Sc1_regret, sc1_socnorms1, sc1_socnorms2, sc1_combinednorms) 
+dataset_selected <- data %>% select(Sc1_regret, sc1_socnorms1, sc1_socnorms2, sc1_combinednorms, Sc2_regret, Sc2_lucky) 
 kable(head(dataset_selected))
+```
 
-head(data)
-
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| include: false
 # To check exclusions based on pre-registration criteria uncomment the following
 # Criteria:
 # Serious lower than 5
@@ -263,16 +426,17 @@ sd(data$age, na.rm = TRUE)
 ```
 
 
-## Clean and test data for statistical information 
+## Label and test the data for statistical information 
 
-123
+### Label the data for exp1
+We label the data in the questionnaire with values of 1 and 2 as "Routine Smith", "Exception Jones" or "Routine Adams", "Exception White". The top 6 rows of interest are shown by @tbl-labeled_data_exp1 and @tbl-labeled_data_exp2.
 
 
-The top 6 rows are shown by @tbl-cleanedata
 ```{r}
 #| echo: false
 #| warning: false
-#| include: false
+#| label: tbl-labeled_data_exp1
+#| tbl-cap: "First six rows of the labeled data of interest in exp1"
 
 ###################
 # EXPERIMENT 1 (Hitchhiker-Scenario)
@@ -295,6 +459,17 @@ label(data$sc1_socnorms1) <- "Descriptive norms - which is more common?"
 label(data$sc1_socnorms2) <- "Injunctive norms - who is more criticized by society?" 
 label(data$sc1_combinednorms) <- "Who experiences higher regret, when asking participants to consider the norm" 
 
+dataset_selected_exp1 <- data %>% select(Sc1_regret, sc1_socnorms1, sc1_socnorms2, sc1_combinednorms) 
+kable(head(dataset_selected_exp1))
+```
+
+### Obtain statistical information for exp1
+Statistics about the data we are interested in, such as frequencies and percentages, are generated below by the descriptives and propTest2 functions, and these statistics underpin the plotting of @tbl-frequency_and_proportion_exp1 and @fig-proportion_exp1 for experiment 1 in Results.
+
+```{r}
+#| echo: false
+#| warning: false
+
 # Let's run the JAMOVI imported syntax 
 # Descriptives for the main variables.
 # Plots appear in the R Studio Plots section
@@ -307,6 +482,13 @@ jmv::descriptives(
     "sc1_combinednorms"),
   freq=TRUE)
 
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| include: false
+
 # binomial Z
 jmv::propTest2(
   data=data,
@@ -318,6 +500,15 @@ jmv::propTest2(
   ci=TRUE)
 
 
+```
+
+### Label the data for exp2
+```{r}
+#| echo: false
+#| warning: false
+#| label: tbl-labeled_data_exp2
+#| tbl-cap: "First six rows of the labeled data of interest in exp2"
+#| 
 ###################
 # EXPERIMENT 2 (Car Accident-Scenario)
 
@@ -342,6 +533,17 @@ label(data$Sc2_random_1) <- "Adam's (Routine) accident is a random coincidence"
 label(data$Sc2_random_2) <- "White's' (Exception) accident is a random coincidence"
 label(data$Sc2_lucky) <- "Who is less lucky"
 
+dataset_selected_exp2 <- data %>% select(Sc2_regret, Sc2_lucky) 
+kable(head(dataset_selected_exp2))
+```
+
+### Obtain statistical information for exp2
+Statistics about the data we are interested in, such as frequencies and percentages, are generated below by the descriptives and propTest2 functions, and these statistics underpin the plotting of @tbl-frequency_and_proportion_exp2 and @fig-proportion_exp2 for experiment 2 in Results.
+
+```{r}
+#| echo: false
+#| warning: false
+
 # Descriptives for main variables
 jmv::descriptives(
   data=data,
@@ -351,7 +553,12 @@ jmv::descriptives(
     "Sc2_random_2",
     "Sc2_lucky"),
   freq=TRUE)
+```
 
+```{r}
+#| echo: false
+#| warning: false
+#| include: false
 # binomial Z
 jmv::propTest2(
   data=data,
@@ -392,6 +599,75 @@ allowed_values_exp2_lucky <- c("Adams less lucky", "White less lucky")
 all(data$Sc2_regret %in% allowed_values_exp2_regret | is.na(data$Sc2_regret))== TRUE
 all(data$Sc2_lucky %in% allowed_values_exp2_lucky | is.na(data$Sc2_lucky))== TRUE
 ```
+
+# Questionnaire details
+
+## Scenario #1
+
+**Mr. Jones** almost never takes hitch-hikers in his car. Yesterday he gave a man a ride and was robbed. **Mr. Smith** frequently takes hitch-hikers in his car. Yesterday he gave a man a ride and was robbed.
+
+### Comprehension Questions
+1. Who almost never takes hitch-hikers in his car?
+   - Mr. Jones (1)
+   - Mr. Smith (2)
+2. Who frequently takes hitch-hikers in his car?
+   - Mr. Jones (1)
+   - Mr. Smith (2)
+3. Who got robbed?
+   - Mr. Smith (1)
+   - Mr. Jones (2)
+   - Both Mr. Smith and Mr. Jones (4)
+
+### Regret
+- Who do you expect will experience greater regret over the episode?
+  - Mr. Jones (1)
+  - Mr. Smith (2)
+
+### Social Norms 1
+- Whose behavior do you think is more common in society?
+  - Mr. Jones (1)
+  - Mr. Smith (2)
+
+### Social Norms 2
+- Whose behavior do you think will be more criticized by others in society?
+  - Mr. Jones (1)
+  - Mr. Smith (2)
+
+### Negative Affect
+- Contemplating your previous answers about this scenario and factoring in both Mr. Jones and Mr. Smith's personal routines and your perceptions of social norms and possible social criticism, who do you think overall experienced more negative feelings about the decision to take a hitch-hiker that day?
+  - Mr. Jones (1)
+  - Mr. Smith (2)
+
+## Scenario #2
+
+**Mr. Adams** was involved in an accident when driving home after work on his regular route. **Mr. White** was involved in a similar accident when driving on a route that he only takes when he wants a change of scenery.
+
+### Comprehension Questions:
+1. Who was driving home after work on his regular route?
+   - Mr. Adams (1)
+   - Mr. White (2)
+2. Who was driving on a route that he only takes when he wants a change of scenery?
+   - Mr. Adams (1)
+   - Mr. White (2)
+3. Who was involved in an accident?
+   - Mr. Adams (1)
+   - Mr. White (2)
+   - Both Mr. Adams and Mr. White (4)
+
+### Regret:
+- Who is more upset over the accident?
+  - Mr. Adams (1)
+  - Mr. White (2)
+
+### Random Chance:
+- Please rate your agreement with the following statements:
+  - Mr. Adam's accident is just a random coincidence (1 – strongly disagree to 7 – strongly agree)
+  - Mr. White's accident is just a random coincidence (1 – strongly disagree to 7 – strongly agree)
+
+### Luck:
+- Which of the two do you think is less lucky?
+  - Mr. Adams (1)
+  - Mr. White (2)
 
 
 

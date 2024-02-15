@@ -1,10 +1,6 @@
-# Starter folder
-
 ## Overview
 
-This repo provides students with a foundation for their own projects associated with *Telling Stories with Data*. You do not need every aspect for every paper and you should delete aspects that you do not need.
-
-To use this folder, click the green "Code" button", then "Download ZIP". Move the downloaded folder to where you want to work on your own computer, and then modify it to suit.
+In this study, we investigated the relationship between routine behaviors andfeelings of regret, focusing on two thought experiments: a hitchhiking scenarioand a car accident scenario. We replicated and expanded upon previous researchfindings. Our results indicate that individuals tend to experience higher levelsof regret in situations that deviate from their routine or normal behavior
 
 
 ## File Structure
