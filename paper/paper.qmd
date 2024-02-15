@@ -283,9 +283,6 @@ As can be seen from Figure2, people felt significantly more regret about the acc
 ## Perception of Misfortune vs. Randomness
 Most participants attributed the accident Mr. White suffered more to misfortune than to randomness, possibly because the choice of an unconventional route was perceived as a more proactive decision, thus triggering stronger feelings of regret when the accident occurred. In contrast, Mr. Adams' accident was viewed more as a random event, reflecting the fact that misfortunes on routine routes are perceived to be the result of uncontrollable factors rather than a direct consequence of individual decision-making.
 
-## Implications of Regret Research
-Research on regret is important because regret is prevalent in life. First, understanding how regret works can help in designing therapeutic interventions that more effectively manage regret, depression, and anxiety. For example, in the car accident incident in part2, Mr. Adams in the exception scenario would have developed greater regret and had a greater likelihood of developing psychological problems than Mr. White. One can intervene and treat Mr. Adams more proactively by gaining insight into regret. Second, insights into regret can provide strategies for improving decision-making processes in personal, professional, and political contexts, emphasizing the importance of normative behaviors and their impact on outcomes.
-
 ## Bias and ethics
 The difference in the participants of the survey will be the main bias, the first experiment is that we recruited 342 participants online from TurkPrime.com, and it is impossible to determine whether the sample is universal and random, and the sample size is not large enough, there are more males, all Turkish. The country's unique culture may have an impact on the data collected, such as the perception of free-riding in Turkey in general.
 
@@ -293,6 +290,8 @@ The experiment involves asking participants to imagine being robbed and in a car
 
 ## Weaknesses and future directions
 The main shortcomings of the study are that it does not analyze the impact of cultural differences on the perception of regret and decision-making, and the sample selected is not representative enough as it is Turkish, so the sample should be enlarged and screened to ensure that the data are of high quality.
+
+Research on regret is important because regret is prevalent in life. First, understanding how regret works can help in designing therapeutic interventions that more effectively manage regret, depression, and anxiety. For example, in the car accident incident in part2, Mr. Adams in the exception scenario would have developed greater regret and had a greater likelihood of developing psychological problems than Mr. White. One can intervene and treat Mr. Adams more proactively by gaining insight into regret. Second, insights into regret can provide strategies for improving decision-making processes in personal, professional, and political contexts, emphasizing the importance of normative behaviors and their impact on outcomes.
 
 Future research could explore how individual differences, such as personality traits, affect the experience of regret, or expand the current research methodology to comprehensively analyze the emotional responses related to regret and try to discover connections and patterns to gain a deeper understanding of this theory.
 
