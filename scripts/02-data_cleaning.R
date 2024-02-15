@@ -51,6 +51,11 @@ label(data$sc1_combinednorms) <- "Who experiences higher regret, when asking par
 dataset_selected_exp1 <- data %>% select(Sc1_regret, sc1_socnorms1, sc1_socnorms2, sc1_combinednorms) 
 kable(head(dataset_selected_exp1))
 
+write_csv(
+  x = data,
+  file = here::here("data/analysis_data/exp1-labeled-data.csv")
+)
+
 # Let's run the JAMOVI imported syntax 
 # Descriptives for the main variables.
 # Plots appear in the R Studio Plots section
@@ -100,10 +105,11 @@ label(data$Sc2_lucky) <- "Who is less lucky"
 dataset_selected_exp2 <- data %>% select(Sc2_regret, Sc2_lucky) 
 kable(head(dataset_selected_exp2))
 
+
 # Save the cleaned data
 write_csv(
   x = data,
-  file = here::here("data/analysis_data/exp1-labeled-data.csv")
+  file = here::here("data/analysis_data/exp2-labeled-data.csv")
 )
 
 # Descriptives for main variables
