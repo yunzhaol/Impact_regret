@@ -100,6 +100,12 @@ label(data$Sc2_lucky) <- "Who is less lucky"
 dataset_selected_exp2 <- data %>% select(Sc2_regret, Sc2_lucky) 
 kable(head(dataset_selected_exp2))
 
+# Save the cleaned data
+write_csv(
+  x = data,
+  file = here::here("data/analysis_data/exp1-labeled-data.csv")
+)
+
 # Descriptives for main variables
 jmv::descriptives(
   data=data,
