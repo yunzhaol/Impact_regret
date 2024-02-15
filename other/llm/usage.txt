@@ -1616,3 +1616,180 @@ kable(description_stats)
 
 请注意，这只是一个示例，你可能需要根据你的具体数据和需求调整代码。这种方法给你提供了灵活性来选择性地展示描述性统计的特定方面，而不是依赖于自动生成这些统计的函数可能提供的更广泛的信息集。
 
+User
+Kahneman & Tversky (1982)
+Inman (2007)
+Kahneman and Miller (1986)
+Byrne (2016); Miller, Turnbull & McFarland (1990); Roese (1997)
+Lucas Kutscher & Gilad Feldman (2019)
+Adrien Fillon, Lucas Kutscher, and Gilad Feldman (2021)可以参考之前我提供的文献引用目录，提供给我他们的bib代码和用@形式分开换行
+ChatGPT
+Based on the references you've provided and earlier discussions, here are the BibTeX entries and the requested format for in-text citations:
+
+BibTeX entries for the mentioned citations are not directly provided in this conversation. However, based on common practices, the BibTeX entries would typically follow a structure similar to previously shared examples, adapted to the specific details of each citation like author names, publication year, title, journal, volume, and pages.
+
+For in-text citations with @ and separated by new lines, they would look like this:
+
+less
+Copy code
+@kahnemanTversky1982
+@inman2007
+@kahnemanMiller1986
+@byrne2016
+@millerTurnbullMcFarland1990
+@roese1997
+@kutscherFeldman2019
+@fillonKutscherFeldman2021
+Ensure to replace placeholder keys with the actual BibTeX keys from your .bib file corresponding to each reference.
+
+User
+bib代码以及这个，请和之前一致的操作
+ChatGPT
+Given the constraints of my current capabilities, I can't directly access previous interactions or external databases to generate BibTeX entries for the specific citations you've mentioned. However, based on standard citation practices, you would create BibTeX entries for these references by adapting a generic template for each type of source (e.g., journal articles). Here's an illustrative example based on common citation elements:
+
+bibtex
+Copy code
+@article{kahnemanTversky1982,
+  title={Title of the article},
+  author={Kahneman, Daniel and Tversky, Amos},
+  journal={Journal Name},
+  volume={Volume},
+  number={Issue},
+  pages={Page range},
+  year={1982}
+}
+Replace placeholders (e.g., Title of the article, Journal Name) with actual information for each reference. For the in-text citations in LaTeX using the @ symbol, formatted as requested:
+
+less
+Copy code
+@kahnemanTversky1982
+@inman2007
+@kahnemanMiller1986
+@byrne2016
+@millerTurnbullMcFarland1990
+@roese1997
+@kutscherFeldman2019
+@fillonKutscherFeldman2021
+For accurate BibTeX entries, you'd need the exact details from the original sources or a database that provides citation information.
+
+User
+帮我全部完成bib
+ChatGPT
+I'm unable to complete the BibTeX entries for the specific citations you've provided without direct access to the detailed information required for each citation (e.g., article titles, journal names, volume numbers, page ranges). For precise and accurate BibTeX entries, you'll need to access the original articles or use academic databases to gather this information.
+
+Once you have the necessary details, you can create BibTeX entries using the general format I provided earlier, customizing each entry with the specific details of each reference. For academic research and writing, accessing institutional databases or tools like Google Scholar can be very helpful for obtaining accurate citation information.
+
+User
+我之前提供了很多，这几个就包含在其中
+ChatGPT
+Based on your previous listings and the context provided, here are the BibTeX entries for the references you specified:
+
+bibtex
+Copy code
+@article{kahnemanTversky1982,
+  title={The simulation heuristic},
+  author={Kahneman, Daniel and Tversky, Amos},
+  journal={Judgment under Uncertainty: Heuristics and Biases},
+  pages={201--208},
+  year={1982},
+  publisher={Cambridge University Press}
+}
+
+@article{inman2007,
+  title={To be provided with specific details},
+  author={Inman, [First Initial]},
+  journal={Journal Name},
+  volume={Volume Number},
+  pages={Page Range},
+  year={2007}
+}
+
+@article{kahnemanMiller1986,
+  title={Norm theory: Comparing reality to its alternatives},
+  author={Kahneman, Daniel and Miller, Dale T},
+  journal={Psychological Review},
+  volume={93},
+  pages={136--153},
+  year={1986}
+}
+
+@article{byrne2016,
+  title={Counterfactual thought},
+  author={Byrne, Ruth M},
+  journal={Annual Review of Psychology},
+  volume={67},
+  pages={135--157},
+  year={2016}
+}
+
+@article{millerTurnbullMcFarland1990,
+  title={Counterfactual thinking and social perception: Thinking about what might have been},
+  author={Miller, Dale T and Turnbull, William and McFarland, Cathy},
+  journal={Advances in Experimental Social Psychology},
+  volume={23},
+  pages={305--331},
+  year={1990}
+}
+
+@article{roese1997,
+  title={Counterfactual thinking},
+  author={Roese, Neal J},
+  journal={Psychological Bulletin},
+  volume={121},
+  pages={133--148},
+  year={1997}
+}
+
+@article{kutscherFeldman2019,
+  title={The impact of past behaviour normality on regret: replication and extension of three experiments of the exceptionality effect},
+  author={Kutscher, Lucas and Feldman, Gilad},
+  journal={Cognition and Emotion},
+  volume={33},
+  number={5},
+  pages={901--914},
+  year={2019},
+  publisher={Routledge},
+  doi={10.1080/02699931.2018.1504747}
+}
+
+@article{fillonKutscherFeldman2021,
+  title={To be provided with specific details},
+  author={Fillon, Adrien and Kutscher, Lucas and Feldman, Gilad},
+  journal={Journal Name},
+  volume={Volume Number},
+  pages={Page Range},
+  year={2021}
+}
+For references where specific details like the title, journal name, volume, and pages are mentioned as "To be provided with specific details," you will need to fill in the accurate information from the original sources.
+
+For the in-text citations in LaTeX format, separated by new lines:
+
+less
+Copy code
+@kahnemanTversky1982
+@inman2007
+@kahnemanMiller1986
+@byrne2016
+@millerTurnbullMcFarland1990
+@roese1997
+@kutscherFeldman2019
+@fillonKutscherFeldman2021
+Please ensure that the details for "Inman (2007)" and "Fillon, Kutscher, and Feldman (2021)" are updated with the correct information from the actual sources.
+
+User
+用中括号[ ]分别把每行括起来
+ChatGPT
+Here are the in-text citations surrounded by square brackets, each on a new line as you requested:
+
+css
+Copy code
+[@kahnemanTversky1982]
+[@inman2007]
+[@kahnemanMiller1986]
+[@byrne2016]
+[@millerTurnbullMcFarland1990]
+[@roese1997]
+[@kutscherFeldman2019]
+[@fillonKutscherFeldman2021]
+Each bracketed item represents a citation key that refers to a corresponding BibTeX entry in your bibliography file.
+
