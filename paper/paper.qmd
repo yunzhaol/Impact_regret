@@ -296,7 +296,6 @@ The main shortcomings of the study are that it does not analyze the impact of cu
 
 Future research could explore how individual differences, such as personality traits, affect the experience of regret, or expand the current research methodology to comprehensively analyze the emotional responses related to regret and try to discover connections and patterns to gain a deeper understanding of this theory.
 
-Weaknesses and next steps should also be included.
 
 # Conclusion {#sec-conclusion}
 
@@ -452,12 +451,10 @@ label(data$sc1_combinednorms) <- "Who experiences higher regret, when asking par
 dataset_selected_exp1 <- data %>% select(Sc1_regret, sc1_socnorms1, sc1_socnorms2, sc1_combinednorms)
 kable(head(dataset_selected_exp1))
 
-# Save the cleaned data
 write_csv(
   x = data,
   file = here::here("data/analysis_data/exp1-labeled-data.csv")
 )
-```
 ```
 
 ### Obtain statistical information for exp1
