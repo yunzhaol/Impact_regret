@@ -5,7 +5,7 @@ author:
   - Yang Cheng
   - Yunzhao Li
   - Wentao Sun
-thanks: "Code and data are available at: https://github.com/yunzhaol/Impact_regret.git. A replication of various aspects in this paper are available at: https://doi.org/10.1080/02699931.2018.1504747"
+thanks: "Code and data are available at: https://github.com/yunzhaol/Impact_regret.git. A replication of various aspects in this paper are available at: https://doi.org/10.48152/ssrp-a48e-tv38"
 date: today
 date-format: long
 abstract: "In this study, we investigated the relationship between routine behaviors and feelings of regret, focusing on two thought experiments: a hitchhiking scenario and a car accident scenario. We replicated and expanded upon previous research findings. Our results indicate that individuals tend to experience higher levels of regret in situations that deviate from their routine or normal behavior. This pattern was evident in both scenarios, where participants expressed more regret and perceived misfortune when actions led to negative outcomes in less common, exceptional circumstances. Such findings highlight the significance of routine in our decision-making processes and the emotional consequences of deviating from it. This research not only replicates previous studies but also extends our comprehension of how societal norms and personal routines influence our feelings of regret, providing valuable perspectives for both psychological theory and practical applications in managing emotional well-being."
@@ -200,7 +200,7 @@ ggplot(data_melted, aes(x = Category, y = value, fill = variable)) +
 
 ## Part 2: Car accident scenario
 
-@tbl-frequency_and_proportion_exp2 shows that most participants regretted the exception (277, 81%) more strongly than the rule (65,19%; p < .001, d = 1.58). The same result can be seen more intuitively in figure2. the result for the exception event represented by Mr. White is much higher for both Regret and Luck than for the Routine event represented by Mr. Adams.
+@tbl-frequency_and_proportion_exp2 shows that most participants regretted the exception (277, 81%) more strongly than the rule (65, 19%). The same result can be seen more intuitively in figure2. the result for the exception event represented by Mr. White is much higher for both Regret and Luck than for the Routine event represented by Mr. Adams.
 
 ```{r}
 #| echo: false
@@ -671,33 +671,6 @@ all(data$Sc2_lucky %in% allowed_values_exp2_lucky | is.na(data$Sc2_lucky)) == TR
 
 
 # References
-@tellingstories
-@bear2017normality
-@briazu2017undoing
-@buck1994reactions
-@byrne2016counterfactual
-@chandler2014nonnaivete
-@cialdini2003crafting
-@dixon2011if
-@epstein1992irrational
-@epstude2008functional
-@feldman2018what
-@feldman2017norm
-@gavanski1989counterfactual
-@guttentag2004reality
-@hooker2000impoverished
-@hur2009regrets
-@kahneman1986norm
-@kahneman1982simulation
-@koehler2003normality
-@koonce2015effects
-@mceleney2006spontaneous
-@miller1986counterfactual
-@miller1991gender
-@miller1989coincidence
-@miller1990counterfactual
-@ngbala1997action
-@roese1997counterfactual
-@roese2017functional
-@roese1997affective
+
+
 
