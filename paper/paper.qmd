@@ -529,6 +529,10 @@ label(data$Sc2_lucky) <- "Who is less lucky"
 
 dataset_selected_exp2 <- data %>% select(Sc2_regret, Sc2_lucky)
 kable(head(dataset_selected_exp2))
+write_csv(
+  x = data,
+  file = here::here("data/analysis_data/exp2-labeled-data.csv")
+)
 ```
 
 ### Obtain statistical information for exp2
