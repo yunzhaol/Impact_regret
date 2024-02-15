@@ -13,7 +13,7 @@ The repo is structured as:
 -   `data/analysis_data` contains the clean data refined through our labeling process.
 -   `other` contains relevant literature, details about LLM chat interactions, and sketches.
 -   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper. 
--   `scripts` contains the R scripts used to simulate, download, clean data, and generate graphs.
+-   `scripts` contains the R scripts used to simulate, download, clean, test data and generate graphs.
 
 
 ## Statement on LLM usage
