@@ -4,7 +4,6 @@
 if(!require(Rcpp)){install.packages('Rcpp', dependencies = TRUE)}
 #if(!require(jmv)){install.packages('jmv', repos=c('https://repo.jamovi.org', 'https://cran.r-project.org'))}
 if(!require(jmv)){install.packages('jmv', dependencies = TRUE)}
-if(!require(rstudioapi)){install.packages('rstudioapi', dependencies = TRUE)}
 if(!require(effsize)){install.packages('effsize', dependencies = TRUE)}
 if(!require(Hmisc)){install.packages('effsize', dependencies = TRUE)}
 if(!require(psych)){install.packages('psych', dependencies = TRUE)}
@@ -20,7 +19,6 @@ library(ggplot2)
 library(dplyr) 
 library(Hmisc)
 library(effsize)
-library(rstudioapi)
 library(jmv)
 library(Rcpp)
 
@@ -28,12 +26,10 @@ library(Rcpp)
 # setting formatting options
 options(scipen=999.99, digits =7)
 
-# a tweak to point RStudio to the current directory of the R file
-this.dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
-setwd(this.dir)
+
 
 # load our dataset 
-data <- read.csv("osf-past-normality-regret-replication-exp2-data-v2.csv", header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+data <- read.csv(here::here("data/analysis_data/osf-past-normality-regret-replication-exp2-data-v2.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
 str(data)
 
 # number of participants

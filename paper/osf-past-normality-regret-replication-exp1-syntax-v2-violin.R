@@ -30,7 +30,8 @@ this.dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 setwd(this.dir)
 
 # load our dataset 
-data <- read.csv("osf-past-normality-regret-replication-data.csv", header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+data <- read.csv(here::here("data/analysis_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+
 str(data)
 
 # To check exclusions based on pre-registration criteria uncomment the following
@@ -86,7 +87,6 @@ jmv::descriptives(
     "sc1_combinednorms"),
   freq=TRUE)
 
-
 # binomial Z
 jmv::propTest2(
   data=data,
@@ -96,6 +96,7 @@ jmv::propTest2(
     "sc1_socnorms2",
     "sc1_combinednorms"),
   ci=TRUE)
+
 
 jmv::propTestN(
   data=data,
