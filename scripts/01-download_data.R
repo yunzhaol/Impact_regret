@@ -30,7 +30,7 @@ library(kableExtra)
 options(scipen=999.99, digits =7)
 
 # load our dataset 
-data <- read.csv(here::here("data/analysis_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+data <- read.csv(here::here("data/raw_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
 
 #Check the top six rows of data of interest
 dataset_selected <- data %>% select(Sc1_regret, sc1_socnorms1, sc1_socnorms2, sc1_combinednorms, Sc2_regret, Sc2_lucky) 

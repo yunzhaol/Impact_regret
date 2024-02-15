@@ -98,7 +98,7 @@ From Table 1, 315 participants with 92.1% associated higher regret with Mr. Jone
 #| include: false
 
 # load our dataset
-data <- read.csv(here::here("data/analysis_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+data <- read.csv(here::here("data/raw_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
 
 # JAMOVI requires factors, while R imports as numeric. So, need to convert from numeric to factor.
 data$Sc1_regret <- factor(data$Sc1_regret)
@@ -381,7 +381,7 @@ We acquired a CSV file containing raw data relevant to 'Routines and Regret: An 
 options(scipen = 999.99, digits = 7)
 
 # load our dataset
-data <- read.csv(here::here("data/analysis_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+data <- read.csv(here::here("data/raw_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
 
 # Check the top six rows of data of interest
 dataset_selected <- data %>% select(Sc1_regret, sc1_socnorms1, sc1_socnorms2, sc1_combinednorms, Sc2_regret, Sc2_lucky)

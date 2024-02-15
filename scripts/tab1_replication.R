@@ -31,7 +31,7 @@ library(kableExtra)
 
 
 # Read in the raw data.
-data <- read.csv(here::here("data/analysis_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+data <- read.csv(here::here("data/raw_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
 
 # JAMOVI requires factors, while R imports as numeric. So, need to convert from numeric to factor.
 data$Sc1_regret<- factor(data$Sc1_regret)
