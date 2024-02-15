@@ -1,26 +1,52 @@
 #### Preamble ####
-# Purpose: Downloads and saves the data from [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose:We acquired a CSV file containing raw data relevant to 'Routines and 
+# Regret: An Examination of Behavioral Norms and Emotional Responses.' 
+# Subsequently, we inspected the first six rows and assessed the demographic details.
+# Author: Yunzhao Li, Yang Cheng, Wentao Sun
+# Date: 14 February 2024
+# Contact: yunzhao.li@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: None
 
 
 #### Workspace setup ####
-library(opendatatoronto)
+library(ggplot2)
+library(scales)
+library(knitr)
+library(MBESS)
+library(psych)
+library(dplyr) 
+library(Hmisc)
+library(effsize)
+library(jmv)
+library(Rcpp)
+library(reshape2)
+library(readr)
+library(janitor)
 library(tidyverse)
-# [...UPDATE THIS...]
+library(kableExtra)
 
 #### Download data ####
-# [...ADD CODE HERE TO DOWNLOAD...]
+options(scipen=999.99, digits =7)
+
+# load our dataset 
+data <- read.csv(here::here("data/analysis_data/osf-past-normality-regret-replication-exp1-data.csv"), header = TRUE, stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+
+#Check the top six rows of data of interest
+dataset_selected <- data %>% select(Sc1_regret, sc1_socnorms1, sc1_socnorms2, sc1_combinednorms, Sc2_regret, Sc2_lucky) 
+kable(head(dataset_selected))
+
+#Show demographics
+#Age
+data$gender
+table(data$gender)
+#Gender
+data$age
+data$age[data$age==99] <- NA
+mean(data$age, na.rm = TRUE)
+sd(data$age, na.rm = TRUE)
 
 
 
-#### Save data ####
-# [...UPDATE THIS...]
-# change the_raw_data to whatever name you assigned when you downloaded it.
-write_csv(the_raw_data, "inputs/data/raw_data.csv") 
 
          
