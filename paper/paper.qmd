@@ -671,5 +671,33 @@ all(data$Sc2_lucky %in% allowed_values_exp2_lucky | is.na(data$Sc2_lucky)) == TR
 
 
 # References
-
+@tellingstories
+@bear2017normality
+@briazu2017undoing
+@buck1994reactions
+@byrne2016counterfactual
+@chandler2014nonnaivete
+@cialdini2003crafting
+@dixon2011if
+@epstein1992irrational
+@epstude2008functional
+@feldman2018what
+@feldman2017norm
+@gavanski1989counterfactual
+@guttentag2004reality
+@hooker2000impoverished
+@hur2009regrets
+@kahneman1986norm
+@kahneman1982simulation
+@koehler2003normality
+@koonce2015effects
+@mceleney2006spontaneous
+@miller1986counterfactual
+@miller1991gender
+@miller1989coincidence
+@miller1990counterfactual
+@ngbala1997action
+@roese1997counterfactual
+@roese2017functional
+@roese1997affective
 
