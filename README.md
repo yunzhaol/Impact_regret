@@ -1,6 +1,6 @@
 ## Overview
 
-In this study, we investigated the relationship between routine behaviors andfeelings of regret, focusing on two thought experiments: a hitchhiking scenarioand a car accident scenario. We replicated and expanded upon previous researchfindings. Our results indicate that individuals tend to experience higher levelsof regret in situations that deviate from their routine or normal behavior
+In this study, we investigated the relationship between routine behaviors and feelings of regret, focusing on two thought experiments: a hitchhiking scenario and a car accident scenario. We replicated and expanded upon previous research findings. Our results indicate that individuals tend to experience higher levels of regret in situations that deviate from their routine or normal behavior
 
 
 ## File Structure
